@@ -125,6 +125,28 @@ const Mutation = new GraphQLObjectType({
                     if(auth.id == id) return true;
                 });
             }
+        },
+        addBook : {
+            type : BookType,
+            args : {
+                name : {type : GraphQLString},
+                genre : {type : GraphQLString},
+                authorId : {type : GraphQLID}
+            },
+            resolve(parent, args) {
+                var id = Math.floor(Math.random()*100);
+                books.push({
+                    name : args.name,
+                    genre : args.genre,
+                    authorId : args.authorId,
+                    id 
+                });
+                return books.find(boo => {
+                    if(boo.id == id) {
+                        return true;
+                    }
+                });
+            }
         }
     }
 });
