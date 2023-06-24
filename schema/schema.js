@@ -89,10 +89,47 @@ const RootQuery = new GraphQLObjectType({
                 })
                 return author;
             }
+        },
+        books : {
+            type : new GraphQLList(BookType),
+            resolve(parent, args) {
+                return books;
+            }
+        },
+        authors : {
+            type : new GraphQLList(AuthorType),
+            resolve(parent, args) {
+                return authors;
+            }
         }
     },
-})
+});
+
+const Mutation = new GraphQLObjectType({
+    name : "Mutation",
+    fields : {
+        addAuthor : {
+            type : AuthorType,
+            args : {
+                name : {type : GraphQLString},
+                age : {type : GraphQLInt}
+            },
+            resolve(parent, args) {
+                var id = Math.floor(Math.random()*100);
+                authors.push({
+                    name : args.name,
+                    age : args.age,
+                    id 
+                });
+                return authors.find(auth => {
+                    if(auth.id == id) return true;
+                });
+            }
+        }
+    }
+});
 
 module.exports = new GraphQLSchema({
-    query : RootQuery
-})
+    query : RootQuery,
+    mutation : Mutation
+});
