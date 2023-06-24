@@ -4,7 +4,8 @@ const {GraphQLObjectType,
      GraphQLSchema,
      GraphQLID, 
      GraphQLInt, 
-     GraphQLList} = graphql;
+     GraphQLList,
+     GraphQLNonNull} = graphql;
 
 // dummy data
 var books = [
@@ -111,8 +112,8 @@ const Mutation = new GraphQLObjectType({
         addAuthor : {
             type : AuthorType,
             args : {
-                name : {type : GraphQLString},
-                age : {type : GraphQLInt}
+                name : {type : new GraphQLNonNull(GraphQLString)},
+                age : {type : new GraphQLNonNull(GraphQLInt)}
             },
             resolve(parent, args) {
                 var id = Math.floor(Math.random()*100);
@@ -129,8 +130,8 @@ const Mutation = new GraphQLObjectType({
         addBook : {
             type : BookType,
             args : {
-                name : {type : GraphQLString},
-                genre : {type : GraphQLString},
+                name : {type : new GraphQLNonNull(GraphQLString)},
+                genre : {type : new GraphQLNonNull(GraphQLString)},
                 authorId : {type : GraphQLID}
             },
             resolve(parent, args) {
